@@ -1,8 +1,11 @@
-import { app } from "./app.ts"
-import "dotenv/config"
+import { app } from "./app.ts";
+import "dotenv/config";
+import { connectDB } from "./config/db.ts";
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-    console.log(`Server working on port http://localhost:${PORT}`)
-})
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🌿 HabitFlow API is running on port http://localhost:${PORT}`);
+  });
+});
