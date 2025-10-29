@@ -6,4 +6,11 @@ export const habitService = {
     const habit = await Habit.create(data);
     return habit;
   },
+  getAllHabits: async (): Promise<IHabit[]> => {
+    return await Habit.find()
+  },
+  getHabitByID: async (data: string | undefined): Promise<IHabit | null> => {
+    const habit = await Habit.findById(data)
+    return habit
+  }
 };

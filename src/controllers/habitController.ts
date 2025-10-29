@@ -11,20 +11,48 @@ export const habitController = {
         data: habit,
       });
     } catch (err) {
-        res.status(500).json({
-            message: "Error creating habit", err
-        })
+      res.status(500).json({
+        message: "Error creating habit",
+        err,
+      });
     }
   },
-  getAllHabits: (req: Request, res: Response) => {
-    res.status(200).send("getAllHabits");
+
+  getAllHabits: async (req: Request, res: Response) => {
+    try {
+      const habits = await habitService.getAllHabits();
+      res.status(200).json({
+        length: habits.length,
+        message: "success",
+        data: habits,
+      });
+    } catch (err) {
+      res.status(404).json({
+        message: "No habits were found",
+        err,
+      });
+    }
   },
-  getHabitById: (req: Request, res: Response) => {
-    res.status(200).send("getHabitById");
+
+  getHabitById: async (req: Request, res: Response) => {
+     try {
+      const habit = await habitService.getHabitByID(req.params.id);
+      res.status(200).json({
+        message: "success",
+        data: habit,
+      });
+    } catch (err) {
+      res.status(404).json({
+        message: "No habits were found",
+        err,
+      });
+    }
   },
+
   updateHabit: (req: Request, res: Response) => {
     res.status(200).send("updateHabit");
   },
+
   deleteHabit: (req: Request, res: Response) => {
     res.status(200).send("deleteHabit");
   },
