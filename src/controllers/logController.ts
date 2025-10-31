@@ -15,7 +15,7 @@ const logController = {
                 message: "Habit marked as completed"
             })
             }
-            return res.status(409).json({
+            return res.status(400).json({
                 message: "Habit sucessfully completed"
             })
         }catch(err){
