@@ -4,6 +4,6 @@ import logController from "../controllers/logController.ts";
 
 const route = Router()
 
-route.post('/logs/:id', logController.markCompletedHabit)
+route.post('/logs/:id', logController.markAsCompletedHabit)
 
 export default route
