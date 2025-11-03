@@ -4,57 +4,71 @@ import logServices from "../services/logService.ts";
 const logController = {
   markAsCompletedHabit: async (req: Request, res: Response) => {
     try {
-      if (!req.params.id) {
+      const habitId = req.params.id;
+
+      if (!habitId) {
         return res.status(400).json({
+          success: false,
           message: "Missing param habitId",
         });
       }
-      const markedAsCompletedHabit = await logServices.markAsCompletedHabit(
-        req.params.id
-      );
-      if (markedAsCompletedHabit) {
+
+      const result = await logServices.markAsCompletedHabit(habitId);
+
+      // result agora retorna { success: boolean, message: string }
+      if (result.success) {
         return res.status(200).json({
-          message: "Habit marked as completed",
+          success: true,
+          message: result.message,
+        });
+      } else {
+        // retorna 200 mesmo, pois a operação foi válida
+        return res.status(200).json({
+          success: false,
+          message: result.message,
         });
       }
-      return res.status(400).json({
-        message: "Habit sucessfully completed",
-      });
     } catch (err) {
+      console.error("❌ Error marking habit as completed:", err);
       return res.status(500).json({
-        message: "" + err,
+        success: false,
+        message: "Internal server error",
+        error: String(err),
       });
     }
   },
+
   getAllLogs: async (req: Request, res: Response) => {
     try {
-      if (!req.params.id) {
+      const habitId = req.params.id;
+
+      if (!habitId) {
         return res.status(400).json({
+          success: false,
           message: "Missing param habitId",
         });
       }
-      const logs = await logServices.getAllLogs(req.params.id);
+
+      const logs = await logServices.getAllLogs(habitId);
+
       return res.status(200).json({
-        message: "success",
+        success: true,
+        message: "Logs fetched successfully",
         length: logs.logs.length,
-        name: logs.habit?.name,
+        habitName: logs.habit?.name,
+        streak: logs.habit?.streak,
         habitStart: logs.habit?.createdAt,
         logs: logs.logs,
       });
     } catch (err) {
+      console.error("❌ Error fetching logs:", err);
       return res.status(404).json({
-        message: "Habit not Found!",
-        err,
+        success: false,
+        message: "Habit not found",
+        error: String(err),
       });
     }
   },
-  getStreak: async (req: Request, res: Response) => {
-    try{
-
-    }catch(err){
-        
-    }
-  }
 };
 
 export default logController;
