@@ -6,6 +6,6 @@ const route = Router()
 
 route.post('/logs/:id', logController.markAsCompletedHabit)
 route.get('/logs/:id', logController.getAllLogs)
-// route.get('/logs/:id/streak', logController.getStreak)
+route.get('/logs/:id/streak', logController.getStreak)
 
 export default route

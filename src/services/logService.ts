@@ -199,6 +199,15 @@ const logServices = {
 
         return { habit, logs };
     },
+
+    getStreak: async (habitId: string) => {
+      const objectId = new Types.ObjectId(habitId);
+      const habit = await Habit.findById(objectId)
+
+      if (!habit) throw new Error("habit not found");
+
+      return habit
+    }
 };
 
 export default logServices;
