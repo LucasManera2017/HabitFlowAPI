@@ -22,5 +22,13 @@ export const habitService = {
   deletedHabit: async (id: string | undefined): Promise<IHabit | null> => {
     const ObjectId = new Types.ObjectId(id)
     return await Habit.findOneAndDelete(ObjectId)
-  }
+  },
+  getStreak: async (habitId: string) => {
+      const objectId = new Types.ObjectId(habitId);
+      const habit = await Habit.findById(objectId)
+
+      if (!habit) throw new Error("habit not found");
+
+      return habit
+    }
 };

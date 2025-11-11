@@ -83,4 +83,24 @@ export const habitController = {
       });
     }
   },
+   getStreak: async (req: Request, res: Response) => {
+    const habitId = req.params.id;
+
+    if (!habitId) {
+      return res.status(404).json({
+        success: false,
+        message: "Missing param habitId",
+      });
+    }
+
+    const habitStreak = await habitService.getStreak(habitId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Streak fetched successfully",
+      habitName: habitStreak.name,
+      streak: habitStreak.streak,
+      habitStart: habitStreak.createdAt,
+    });
+  },
 };

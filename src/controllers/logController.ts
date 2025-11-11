@@ -18,13 +18,11 @@ const logController = {
       // result agora retorna { success: boolean, message: string }
       if (result.success) {
         return res.status(200).json({
-          success: true,
           message: result.message,
         });
       } else {
         // retorna 200 mesmo, pois a operação foi válida
-        return res.status(200).json({
-          success: false,
+        return res.status(400).json({
           message: result.message,
         });
       }
@@ -68,27 +66,6 @@ const logController = {
         error: String(err),
       });
     }
-  },
-
-  getStreak: async (req: Request, res: Response) => {
-    const habitId = req.params.id;
-
-    if (!habitId) {
-      return res.status(404).json({
-        success: false,
-        message: "Missing param habitId",
-      });
-    }
-
-    const habitStreak = await logServices.getStreak(habitId);
-
-    return res.status(200).json({
-      success: true,
-      message: "Streak fetched successfully",
-      habitName: habitStreak.name,
-      streak: habitStreak.streak,
-      habitStart: habitStreak.createdAt,
-    });
   },
 };
 
